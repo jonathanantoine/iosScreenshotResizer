@@ -6,4 +6,6 @@ Did you try to resize Iphone 6S screenshots to submit it to the Apple Store ? Th
 
 This is done using .Net core 1.1 and the SkiaSharp SDK (.net port by Xamarin).
 
+Yoy can download a release here : https://github.com/jonathanantoine/iosScreenshotResizer/blob/master/releases/iosScreenshotResizer%201.0.zip
+
 Have fun !
