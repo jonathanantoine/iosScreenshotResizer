@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace iosScreenshotResizer
 {
@@ -57,19 +58,22 @@ namespace iosScreenshotResizer
 
         private static void ProcessFiles(IEnumerable<string> filesToProcess)
         {
-            foreach (var fileToProcess in filesToProcess)
-            {
-                // we keep the folder hierarchy
-                var targetOuputPath = fileToProcess.Replace(InputDir, OutputDir);
+            // this is an utility but let's try to do this fast
+            Parallel.ForEach(filesToProcess,
+               fileToProcess =>
+               {
+                   // we keep the folder hierarchy
+                   var targetOuputPath = fileToProcess.Replace(InputDir, OutputDir);
 
-                ProcessFile(fileToProcess, targetOuputPath);
-            }
+                   ProcessFile(fileToProcess, targetOuputPath);
+               });
         }
 
         private static void ProcessFile(string inputPath, string targetOuputPath)
         {
             try
             {
+                // let's be sure the target directory exists
                 var directoryName = Path.GetDirectoryName(targetOuputPath);
                 Directory.CreateDirectory(directoryName);
 
@@ -79,6 +83,8 @@ namespace iosScreenshotResizer
                     {
                         using (var original = SKBitmap.Decode(inputStream))
                         {
+
+                            // we force the wanted size, no rounding issues
                             int width, height;
                             if (original.Width > original.Height)
                             {
@@ -91,17 +97,22 @@ namespace iosScreenshotResizer
                                 width = TARGET_SMALL_SIDE;
                             }
 
+
+                            // resize the image
                             using (var resized = original
                                    .Resize(new SKImageInfo(width, height), SKBitmapResizeMethod.Lanczos3))
                             {
-                                if (resized == null) return;
+                                if (resized == null)
+                                {
+                                    return;
+                                }
 
                                 using (var image = SKImage.FromBitmap(resized))
                                 {
-                                    using (var output =
-                                           File.OpenWrite(targetOuputPath))
+                                    // write the image to the disk
+                                    using (var output = File.OpenWrite(targetOuputPath))
                                     {
-                                        // encore to PNG
+                                        // encode to PNG
                                         image.Encode().SaveTo(output);
                                     }
                                 }
