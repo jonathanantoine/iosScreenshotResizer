@@ -1,13 +1,17 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace iosScreenshotResizer
 {
     public class Program
     {
+        const int TARGET_SMALL_SIDE = 1242;
+        const int TARGET_LONG_SIDE = 2208;
+        const int FINAL_QUALITY = 95;
+
         public static string InputDir { get; private set; }
         public static string OutputDir { get; private set; }
 
@@ -47,11 +51,72 @@ namespace iosScreenshotResizer
             }
 
             ProcessFiles(filesToProcess);
+
+            Console.WriteLine($"All {filesToProcess.Count()} files processed.");
         }
 
         private static void ProcessFiles(IEnumerable<string> filesToProcess)
         {
+            foreach (var fileToProcess in filesToProcess)
+            {
+                // we keep the folder hierarchy
+                var targetOuputPath = fileToProcess.Replace(InputDir, OutputDir);
 
+                ProcessFile(fileToProcess, targetOuputPath);
+            }
+        }
+
+        private static void ProcessFile(string inputPath, string targetOuputPath)
+        {
+            try
+            {
+                var directoryName = Path.GetDirectoryName(targetOuputPath);
+                Directory.CreateDirectory(directoryName);
+
+                using (var input = File.OpenRead(inputPath))
+                {
+                    using (var inputStream = new SKManagedStream(input))
+                    {
+                        using (var original = SKBitmap.Decode(inputStream))
+                        {
+                            int width, height;
+                            if (original.Width > original.Height)
+                            {
+                                width = TARGET_LONG_SIDE;
+                                height = TARGET_SMALL_SIDE;
+                            }
+                            else
+                            {
+                                height = TARGET_LONG_SIDE;
+                                width = TARGET_SMALL_SIDE;
+                            }
+
+                            using (var resized = original
+                                   .Resize(new SKImageInfo(width, height), SKBitmapResizeMethod.Lanczos3))
+                            {
+                                if (resized == null) return;
+
+                                using (var image = SKImage.FromBitmap(resized))
+                                {
+                                    using (var output =
+                                           File.OpenWrite(targetOuputPath))
+                                    {
+                                        // encore to PNG
+                                        image.Encode().SaveTo(output);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine($"'{inputPath}' processed.");
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine($"Cannot process '{inputPath}' : {e.Message}.");
+            }
         }
 
         private static bool TryParseArgs(string[] args)
@@ -102,7 +167,7 @@ namespace iosScreenshotResizer
         private static void WriteMessageAndWaitForKey(string message)
         {
             Console.WriteLine(message);
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }
