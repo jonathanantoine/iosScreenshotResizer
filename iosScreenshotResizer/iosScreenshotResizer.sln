@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9072DF8A-078E-479C-B818-6FE1FFCD2F96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F55D1D5-44A6-4B59-A651-1D75384AE4AA}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "iosScreenshotResizer", "src\iosScreenshotResizer\iosScreenshotResizer.xproj", "{2F606D19-ED2E-4297-B3D9-DBFE652D99DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F606D19-ED2E-4297-B3D9-DBFE652D99DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F606D19-ED2E-4297-B3D9-DBFE652D99DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F606D19-ED2E-4297-B3D9-DBFE652D99DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F606D19-ED2E-4297-B3D9-DBFE652D99DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2F606D19-ED2E-4297-B3D9-DBFE652D99DE} = {9072DF8A-078E-479C-B818-6FE1FFCD2F96}
+	EndGlobalSection
+EndGlobal

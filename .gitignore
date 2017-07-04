@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/iosScreenshotResizer/src/iosScreenshotResizer/obj/Debug/netcoreapp1.0
+/iosScreenshotResizer/src/iosScreenshotResizer/bin/Debug/netcoreapp1.0
+/iosScreenshotResizer/src/iosScreenshotResizer/iosScreenshotResizer.xproj.user
+/iosScreenshotResizer/src/iosScreenshotResizer/project.lock.json
+/iosScreenshotResizer/.vs

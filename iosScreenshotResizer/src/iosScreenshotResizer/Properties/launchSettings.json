@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "iosScreenshotResizer": {
+      "commandName": "Project",
+      "commandLineArgs": "--input \"C:\\Users\\antoi\\Desktop\\input\" --output \"C:\\Users\\antoi\\Desktop\\output\""
+    }
+  }
+}
